@@ -22,13 +22,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aBs-mq-zxv">
-                                        <rect key="frame" x="10" y="802" width="394" height="30"/>
+                                        <rect key="frame" x="10" y="812" width="394" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nvv-TR-5HU">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="772"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="792"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                 </subviews>
@@ -36,9 +36,9 @@
                                 <constraints>
                                     <constraint firstItem="nvv-TR-5HU" firstAttribute="leading" secondItem="78J-wp-9Na" secondAttribute="leading" id="J1J-bb-ebP"/>
                                     <constraint firstItem="nvv-TR-5HU" firstAttribute="top" secondItem="78J-wp-9Na" secondAttribute="top" id="OZD-jp-Ijj"/>
-                                    <constraint firstAttribute="bottom" secondItem="aBs-mq-zxv" secondAttribute="bottom" constant="30" id="Tdi-Hu-sAV"/>
+                                    <constraint firstAttribute="bottom" secondItem="aBs-mq-zxv" secondAttribute="bottom" constant="20" id="Tdi-Hu-sAV"/>
                                     <constraint firstItem="aBs-mq-zxv" firstAttribute="leading" secondItem="78J-wp-9Na" secondAttribute="leading" constant="10" id="ZbF-o7-hjO"/>
-                                    <constraint firstItem="aBs-mq-zxv" firstAttribute="top" secondItem="nvv-TR-5HU" secondAttribute="bottom" constant="30" id="bbe-F5-sXk"/>
+                                    <constraint firstItem="aBs-mq-zxv" firstAttribute="top" secondItem="nvv-TR-5HU" secondAttribute="bottom" constant="20" id="bbe-F5-sXk"/>
                                     <constraint firstAttribute="trailing" secondItem="nvv-TR-5HU" secondAttribute="trailing" id="epA-Xq-3IH"/>
                                     <constraint firstAttribute="trailing" secondItem="aBs-mq-zxv" secondAttribute="trailing" constant="10" id="st7-py-Doc"/>
                                 </constraints>
