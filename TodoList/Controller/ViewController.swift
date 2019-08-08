@@ -23,10 +23,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     var lists :Array = [List]()
+    var safeBottom:CGFloat = 0
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -35,8 +38,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let nib = UINib(nibName: "ListTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "listCell")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        showKeyboard()
+        retuneKeyboard()
+        keyboardDismissGesture()
+        
     
     }
     
@@ -54,34 +60,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
+    func keyboardDismissGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(touchTableView))
+        tableView.addGestureRecognizer(tap)
+    }
+    @objc func touchTableView() {
+        self.view.endEditing(true)
+    }
+    
+    
+    
+    func showKeyboard(){
+        //偵測到key will show 執行keyboardWillShow function
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
     @objc func keyboardWillShow(notification: Notification) {
         self.keyboardControl(notification, isShowing: true)
     }
-    
-    
-    @objc func keyboardWillHide(notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            moveViewBottomConstraint.constant -= keyboardHeight - safeBottom
-            
-            //view 收起動畫
-            var userInfo = notification.userInfo!
-            let curve = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
-            let options = UIView.AnimationOptions(rawValue: UInt(curve!) << 16 | UIView.AnimationOptions.beginFromCurrentState.rawValue)
-            let duration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
-            
-            UIView.animate(withDuration: duration!,delay: 0,options: options,animations: {
-                self.view.layoutIfNeeded()
-            },
-                           completion: { bool in
-            })
-            
-        }
-    }
-    
-    var safeBottom:CGFloat = 0
-    
     private func keyboardControl(_ notification: Notification, isShowing: Bool) {
         
         //get keyboard height
@@ -114,9 +110,36 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         })
     }
     
+    func retuneKeyboard(){
+        //偵測到key will retune 執行 keyboardWillHide function
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     
     
+    @objc func keyboardWillHide(notification: Notification) {
+        //得到keyboard height 後view放回
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            moveViewBottomConstraint.constant -= keyboardHeight - safeBottom
+            
+            //view 收起動畫
+            var userInfo = notification.userInfo!
+            let curve = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
+            let options = UIView.AnimationOptions(rawValue: UInt(curve!) << 16 | UIView.AnimationOptions.beginFromCurrentState.rawValue)
+            let duration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
+            
+            UIView.animate(withDuration: duration!,delay: 0,options: options,animations: {
+                self.view.layoutIfNeeded()
+            },
+                           completion: { bool in
+            })
+            
+        }
+    }
+    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lists.count
     }
@@ -127,15 +150,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    
+    
 }
 
 
+
+
 extension ViewController: UITextFieldDelegate {
+    
+    //按下return收起鍵盤
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-//        keyboardWillHide(notification: Notification)
         return true
     }
+
 
 }
 
