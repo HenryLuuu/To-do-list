@@ -45,7 +45,7 @@ class ViewController: UIViewController {
     }
     
     func addList () {
-        lists.append(List(task: textField.text!))
+        lists.append(List(task: textField.text!, checkBox: true))
         tableView.reloadData()
         
     }
@@ -59,6 +59,10 @@ class ViewController: UIViewController {
             let indexPath = NSIndexPath(row: self.lists.count-1, section: 0)
             tableView.scrollToRow(at: indexPath as IndexPath, at: UITableView.ScrollPosition.bottom, animated: true)
             saveList()
+            
+            for i in lists {
+                print(i.checkBox)
+            }
         }
         textField.text = ""
     }
@@ -66,14 +70,14 @@ class ViewController: UIViewController {
     //save custom object user defaults 不能儲存此type
     func saveList() {
         let saveData = NSKeyedArchiver.archivedData(withRootObject: lists)
-        UserDefaults.standard.set(saveData, forKey: "task")
+        UserDefaults.standard.set(saveData, forKey: "list")
     }
     
     // user default的資料轉型 轉型使用try
     //Swift 的 Error Handling 機制 丟出錯誤的做法統一用 throw，呼叫有可能出錯的 function，一定要加上 try，，Swift 還強制要求我們錯誤一定要處理，不處理將產生 compile error 提醒我們。
     func getList() {
-       if let getData = UserDefaults.standard.object(forKey: "task") as? NSData {
-        lists = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(getData as Data) as! [List]
+        if let getData = UserDefaults.standard.object(forKey: "list") as? NSData {
+            lists = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(getData as Data) as! [List]
         }
         
     }
@@ -171,25 +175,30 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath) as! ListTableViewCell
-        cell.listLabel.text = lists[indexPath.row].task
+        let model = lists[indexPath.row]
+        cell.listLabel.text = model.task
         cell.checkBoxButton.addTarget(self, action: #selector(changeButtonImage), for: .touchUpInside)
-        cell.checkBoxButton.setImage(UIImage(named: "checkBox"), for: .normal)
-        
+        cell.checkBoxButton.setImage(model.checkBox.image , for: .normal)
+
+        cell.checkBoxButton.tag = indexPath.row
         return cell
     }
     
     @objc func changeButtonImage(btn:UIButton) {
         let empty = UIImage(named: "checkBox")
         let check = UIImage(named: "checkBoxConform")
-        
-        switch btn.currentImage == empty {
+        let model = lists[btn.tag]
+        model.checkBox.toggle()
+        btn.setImage(model.checkBox.image, for: .normal)
+        /*
+        switch model.checkBox {
         case true :
             btn.setImage(check, for: .normal)
         case false:
             btn.setImage(empty, for: .normal)
         }
-        
-
+ */
+        saveList()
     }
  
 
