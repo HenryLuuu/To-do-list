@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController {
     
 
     @IBOutlet weak var tableView: UITableView!
@@ -50,10 +50,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    
+    
     @IBAction func doneEditButton(_ sender: Any) {
         //        guard let input = textField.text else { return }
         if textField.text != "" {
             addList()
+            let indexPath = NSIndexPath(row: self.lists.count-1, section: 0)
+            tableView.scrollToRow(at: indexPath as IndexPath, at: UITableView.ScrollPosition.bottom, animated: true)
             saveList()
         }
         textField.text = ""
@@ -80,6 +84,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.addGestureRecognizer(tap)
     }
     
+    //收起鍵盤語法
     @objc func touchTableView() {
         self.view.endEditing(true)
     }
@@ -129,7 +134,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func retuneKeyboard(){
-        //偵測到key will retune 執行 keyboardWillHide function
+        //偵測到key will retune 執行(的事情) keyboardWillHide function
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
@@ -152,8 +157,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             })
         }
     }
-    
 
+    
+}
+
+
+extension ViewController: UITableViewDelegate,UITableViewDataSource{
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lists.count
@@ -162,14 +172,44 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath) as! ListTableViewCell
         cell.listLabel.text = lists[indexPath.row].task
+        cell.checkBoxButton.addTarget(self, action: #selector(changeButtonImage), for: .touchUpInside)
+        cell.checkBoxButton.setImage(UIImage(named: "checkBox"), for: .normal)
+        
         return cell
+    }
+    
+    @objc func changeButtonImage(btn:UIButton) {
+        let empty = UIImage(named: "checkBox")
+        let check = UIImage(named: "checkBoxConform")
+        
+        switch btn.currentImage == empty {
+        case true :
+            btn.setImage(check, for: .normal)
+        case false:
+            btn.setImage(empty, for: .normal)
+        }
+        
+
+    }
+ 
+
+    //增加刪除動作
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            lists.remove(at: indexPath.row)
+            tableView.reloadData()
+            saveList()
+        }
     }
     
     
     
+    
+    
+    
+    
+    
 }
-
-
 
 
 extension ViewController: UITextFieldDelegate {
@@ -182,4 +222,5 @@ extension ViewController: UITextFieldDelegate {
 
 
 }
+
 

@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol ChangeButton {
+    func changeButton(checked: Bool, index: Int)
+}
+
+
 class ListTableViewCell: UITableViewCell {
 
     
+    @IBOutlet weak var checkBoxButton: UIButton!
     @IBOutlet weak var listLabel: UILabel!
     
     
@@ -18,6 +24,8 @@ class ListTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+  
+    
+    
     
 }

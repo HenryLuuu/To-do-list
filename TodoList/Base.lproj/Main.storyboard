@@ -21,8 +21,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78J-wp-9Na">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your List" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aBs-mq-zxv">
-                                        <rect key="frame" x="10" y="812" width="394" height="30"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your List" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aBs-mq-zxv">
+                                        <rect key="frame" x="10" y="812" width="349" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -31,16 +31,26 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="792"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gf0-Vp-vKZ">
+                                        <rect key="frame" x="374" y="808.5" width="25" height="37"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                        <state key="normal" image="icons8-sent_filled-3"/>
+                                        <connections>
+                                            <action selector="doneEditButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zqi-29-dZx"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="Gf0-Vp-vKZ" firstAttribute="leading" secondItem="aBs-mq-zxv" secondAttribute="trailing" constant="15" id="C9E-V1-SDg"/>
                                     <constraint firstItem="nvv-TR-5HU" firstAttribute="leading" secondItem="78J-wp-9Na" secondAttribute="leading" id="J1J-bb-ebP"/>
                                     <constraint firstItem="nvv-TR-5HU" firstAttribute="top" secondItem="78J-wp-9Na" secondAttribute="top" id="OZD-jp-Ijj"/>
                                     <constraint firstAttribute="bottom" secondItem="aBs-mq-zxv" secondAttribute="bottom" constant="20" id="Tdi-Hu-sAV"/>
                                     <constraint firstItem="aBs-mq-zxv" firstAttribute="leading" secondItem="78J-wp-9Na" secondAttribute="leading" constant="10" id="ZbF-o7-hjO"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gf0-Vp-vKZ" secondAttribute="trailing" constant="15" id="bZY-xh-c6W"/>
                                     <constraint firstItem="aBs-mq-zxv" firstAttribute="top" secondItem="nvv-TR-5HU" secondAttribute="bottom" constant="20" id="bbe-F5-sXk"/>
                                     <constraint firstAttribute="trailing" secondItem="nvv-TR-5HU" secondAttribute="trailing" id="epA-Xq-3IH"/>
-                                    <constraint firstAttribute="trailing" secondItem="aBs-mq-zxv" secondAttribute="trailing" constant="10" id="st7-py-Doc"/>
+                                    <constraint firstItem="Gf0-Vp-vKZ" firstAttribute="centerY" secondItem="aBs-mq-zxv" secondAttribute="centerY" id="sYE-01-DAQ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -54,11 +64,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="To Do List" id="GFW-Nh-chB">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="O8J-kb-qdT">
-                            <connections>
-                                <action selector="doneEditButton:" destination="BYZ-38-t0r" id="VfB-Zj-Pr4"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="edit" id="O8J-kb-qdT"/>
                     </navigationItem>
                     <connections>
                         <outlet property="moveView" destination="78J-wp-9Na" id="Y1k-fw-B4f"/>
@@ -90,4 +96,7 @@
             <point key="canvasLocation" x="81" y="21"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icons8-sent_filled-3" width="25" height="25"/>
+    </resources>
 </document>
