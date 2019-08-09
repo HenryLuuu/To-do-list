@@ -10,16 +10,28 @@ import Foundation
 
 
 
-class List {
-    
+class List:NSObject, NSCoding {
     
     var task :String
     
     init(task:String) {
-        
         self.task = task
-        
     }
     
+    
+    required init?(coder aDecoder:NSCoder ){
+        self.task = aDecoder.decodeObject(forKey: "task") as? String ?? ""
+    }
+    
+    func encode (with aCoder: NSCoder) {
+        aCoder.encode(task, forKey: "task")
+    }
+    
+    
+    
+    
+    
 }
+
+
 
