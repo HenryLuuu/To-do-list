@@ -36,7 +36,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="31"/>
                                         <state key="normal" image="icons8-sent_filled-3"/>
                                         <connections>
-                                            <action selector="doneEditButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zqi-29-dZx"/>
+                                            <action selector="doneInputButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zqi-29-dZx"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -64,7 +64,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="To Do List" id="GFW-Nh-chB">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="edit" id="O8J-kb-qdT"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Nx5-YX-GGD">
+                            <connections>
+                                <action selector="editButton:" destination="BYZ-38-t0r" id="Zn3-YR-xaS"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="moveView" destination="78J-wp-9Na" id="Y1k-fw-B4f"/>
