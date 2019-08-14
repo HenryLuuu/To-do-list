@@ -40,17 +40,25 @@ class ListTableViewCell: UITableViewCell {
 
     
 }
-
+var c = 0
+var time: Timer?
 extension ListTableViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         if let delegate = cellDelegate {
             delegate.updateHeightOfRow(self, listTextView)
         }
-    }
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if let delegate = cellDelegate {
-            delegate.save(index: textView.tag, newString: textView.text)
+        
+        time?.invalidate()
+        time = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (_) in
+            self.cellDelegate!.save(index: textView.tag, newString: textView.text)
+            print(c)
+            
         }
     }
+//    func textViewDidEndEditing(_ textView: UITextView) {
+//        if let delegate = cellDelegate {
+//            delegate.save(index: textView.tag, newString: textView.text)
+//        }
+//    }
     
 }
