@@ -38,22 +38,22 @@ class List:NSObject, NSCoding {
     enum Box {
         case check , empty
         init(box:Bool ) {
-            self = box ? .check : .empty
+            self = box ? .empty : .check
         }
         var bool :Bool {
             switch self{
-            case .check:
-                return true
             case .empty:
+                return true
+            case .check:
                 return false
             }
         }
         var image: UIImage{
             switch self {
             case .check:
-                return UIImage(named: "checkBoxConform")!
-            case .empty:
                 return UIImage(named: "checkBox")!
+            case .empty:
+                return UIImage(named: "checkBoxConform")!
             }
         }
         mutating func toggle() {
