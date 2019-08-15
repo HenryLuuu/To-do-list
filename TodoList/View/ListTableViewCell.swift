@@ -8,10 +8,6 @@
 
 import UIKit
 
-//protocol ChangeButton {
-//    func changeButton(checked: Bool, index: Int)
-//}
-
 protocol ListCellDelegate {
     func updateHeightOfRow(_ cell: ListTableViewCell, _ textView: UITextView)
     func save(index:Int, newString:String )
@@ -23,12 +19,8 @@ class ListTableViewCell: UITableViewCell {
     @IBOutlet weak var checkBoxButton: UIButton!
     @IBOutlet weak var listTextView: UITextView!
     
-    @IBOutlet weak var listLabel: UILabel!
-    @IBOutlet weak var listTextField: UITextField!
-    
     var cellDelegate: ListCellDelegate?
-    
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         listTextView.delegate = self as UITextViewDelegate
@@ -40,19 +32,15 @@ class ListTableViewCell: UITableViewCell {
 
     
 }
-var c = 0
 var time: Timer?
 extension ListTableViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         if let delegate = cellDelegate {
             delegate.updateHeightOfRow(self, listTextView)
         }
-        
         time?.invalidate()
         time = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (_) in
             self.cellDelegate!.save(index: textView.tag, newString: textView.text)
-            print(c)
-            
         }
     }
 //    func textViewDidEndEditing(_ textView: UITextView) {

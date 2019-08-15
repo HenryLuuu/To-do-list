@@ -14,37 +14,63 @@ import UIKit
 class List:NSObject, NSCoding {
     
     var task :String
-    var checkBox: Bool
+    var checkBox: Box
+//    var checkBox: Bool
     
-    init(task :String, checkBox: Bool) {
+    init(task :String, checkBox: Box) {
         self.task = task
         self.checkBox = checkBox
     }
-    
     //decoder 解壓縮
     required init?(coder aDecoder:NSCoder ){
         self.task = aDecoder.decodeObject(forKey: "task") as? String ?? ""
-        self.checkBox = aDecoder.decodeBool(forKey: "check")
+        let bool = aDecoder.decodeBool(forKey: "check")
+        self.checkBox = Box(box: bool)
+//        self.checkBox = aDecoder.decodeBool(forKey: "check")
     }
     //encode 壓縮
     func encode (with aCoder: NSCoder) {
         aCoder.encode(task, forKey: "task")
-        aCoder.encode(checkBox, forKey: "check")
+        aCoder.encode(checkBox.bool, forKey: "check")
+//        aCoder.encode(checkBox, forKey: "check")
     }
     
-    
-}
-
-
-extension Bool {
-    
-    var image: UIImage{
-        switch self {
-        case true:
-            return UIImage(named: "checkBox")!
-        case false:
-            return UIImage(named: "checkBoxConform")!
+    enum Box {
+        case check , empty
+        init(box:Bool ) {
+            self = box ? .check : .empty
+        }
+        var bool :Bool {
+            switch self{
+            case .check:
+                return true
+            case .empty:
+                return false
+            }
+        }
+        var image: UIImage{
+            switch self {
+            case .check:
+                return UIImage(named: "checkBoxConform")!
+            case .empty:
+                return UIImage(named: "checkBox")!
+            }
+        }
+        mutating func toggle() {
+            self = (self == .check) ? .empty : .check
         }
     }
 }
+
+//extension Bool {
+//
+//    var image: UIImage{
+//        switch self {
+//        case true:
+//            return UIImage(named: "checkBox")!
+//        case false:
+//            return UIImage(named: "checkBoxConform")!
+//        }
+//    }
+//}
 
