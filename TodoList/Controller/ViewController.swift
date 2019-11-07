@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var moveView: UIView!{
@@ -37,14 +37,14 @@ class ViewController: UIViewController {
         keyboardDismissGesture()
         
     }
-
+    
     
     @IBAction func editButton(_ sender: UIBarButtonItem) {
         tableView.setEditing(!self.tableView.isEditing, animated: true)
         sender.title = self.tableView.isEditing ? "Done" : "Edit"
     }
     
-
+    
     func setTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -68,7 +68,7 @@ class ViewController: UIViewController {
             let indexPath = NSIndexPath(row: self.lists.count-1, section: 0)
             tableView.scrollToRow(at: indexPath as IndexPath, at: UITableView.ScrollPosition.bottom, animated: true)
             saveList()
-
+            
         }
         textField.text = ""
     }
@@ -78,14 +78,14 @@ class ViewController: UIViewController {
         UserDefaults.standard.set(saveData, forKey: "list")
     }
     
-
+    
     func getList() {
         if let getData = UserDefaults.standard.object(forKey: "list") as? NSData {
             lists = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(getData as Data) as! [List]
         }
         
     }
-
+    
     //keyboard tap gesture
     func keyboardDismissGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(touchTableView))
@@ -114,7 +114,7 @@ class ViewController: UIViewController {
         let keyboardRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue
         let convertedFrame = self.view.convert(keyboardRect!, from: nil)
         let heightOffset = self.view.bounds.size.height - convertedFrame.origin.y
-
+        
         var  pureheightOffset : CGFloat = -heightOffset
         
         if isShowing { /// Wite space of save area in iphonex ios 11
@@ -124,41 +124,41 @@ class ViewController: UIViewController {
                 moveViewBottomConstraint.constant = -pureheightOffset
             }
         }
-
+        
         //view 收起動畫
         let curve = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
         let options = UIView.AnimationOptions(rawValue: UInt(curve!) << 16 | UIView.AnimationOptions.beginFromCurrentState.rawValue)
         let duration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
-
+        
         UIView.animate(withDuration: duration!,delay: 0,options: options,animations: {
-                self.view.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         },
-            completion: { bool in
+                       completion: { bool in
         })
     }
     
     
     @objc func keyboardWillHide(notification: Notification) {
         //得到keyboard height 後view放回
-//        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-//            let keyboardRectangle = keyboardFrame.cgRectValue
-//            let keyboardHeight = keyboardRectangle.height
-//            moveViewBottomConstraint.constant -= keyboardHeight - safeBottom
-            moveViewBottomConstraint.constant = 0
+        //        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+        //            let keyboardRectangle = keyboardFrame.cgRectValue
+        //            let keyboardHeight = keyboardRectangle.height
+        //            moveViewBottomConstraint.constant -= keyboardHeight - safeBottom
+        moveViewBottomConstraint.constant = 0
         
-            //view 收起動畫
-            var userInfo = notification.userInfo!
-            let curve = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
-            let options = UIView.AnimationOptions(rawValue: UInt(curve!) << 16 | UIView.AnimationOptions.beginFromCurrentState.rawValue)
-            let duration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
-            
-            UIView.animate(withDuration: duration!,delay: 0,options: options,animations: {
-                self.view.layoutIfNeeded()
-            }, completion: { bool in
-            })
-//        }
+        //view 收起動畫
+        let userInfo = notification.userInfo!
+        let curve = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
+        let options = UIView.AnimationOptions(rawValue: UInt(curve!) << 16 | UIView.AnimationOptions.beginFromCurrentState.rawValue)
+        let duration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
+        
+        UIView.animate(withDuration: duration!,delay: 0,options: options,animations: {
+            self.view.layoutIfNeeded()
+        }, completion: { bool in
+        })
+        //        }
     }
-
+    
     
 }
 
@@ -201,7 +201,7 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
     }
-
+    
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if !tableView.isEditing {
             return .delete
@@ -217,7 +217,7 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
     }
     
     
-//    增加刪除動作
+    //    增加刪除動作
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             lists.remove(at: indexPath.row)
@@ -235,7 +235,7 @@ extension ViewController: ListCellDelegate {
         lists[index].task = newString
         saveList()
     }
-
+    
     
     func updateHeightOfRow(_ cell: ListTableViewCell, _ textView: UITextView) {
         let size = textView.bounds.size
@@ -251,7 +251,7 @@ extension ViewController: ListCellDelegate {
             }
         }
     }
-
+    
 }
 
 
@@ -262,8 +262,8 @@ extension ViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-
-
+    
+    
 }
 
 

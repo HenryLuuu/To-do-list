@@ -32,7 +32,9 @@ class ListTableViewCell: UITableViewCell {
 
     
 }
+
 var time: Timer?
+
 extension ListTableViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         if let delegate = cellDelegate {

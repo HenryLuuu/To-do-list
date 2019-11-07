@@ -50,9 +50,9 @@ class List:NSObject, NSCoding {
         }
         var image: UIImage{
             switch self {
-            case .check:
-                return UIImage(named: "checkBox")!
             case .empty:
+                return UIImage(named: "checkBox")!
+            case .check:
                 return UIImage(named: "checkBoxConform")!
             }
         }
